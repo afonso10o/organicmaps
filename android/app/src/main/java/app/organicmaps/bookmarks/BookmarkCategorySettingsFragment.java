@@ -65,47 +65,6 @@ public class BookmarkCategorySettingsFragment extends BaseMwmToolbarFragment
     return root;
   }
 
-  // private void initViews(@NonNull View root)
-  // {
-  //   mEditCategoryNameView = root.findViewById(R.id.edit_list_name_view);
-  //   TextInputLayout clearNameBtn = root.findViewById(R.id.edit_list_name_input);
-  //   clearNameBtn.setEndIconOnClickListener(v -> clearAndFocus(mEditCategoryNameView));
-  //   mEditCategoryNameView.setText(mCategory.getName());
-  //   InputFilter[] f = { new InputFilter.LengthFilter(TEXT_LENGTH_LIMIT) };
-  //   mEditCategoryNameView.setFilters(f);
-  //   mEditCategoryNameView.requestFocus();
-  //   mEditCategoryNameView.addTextChangedListener(new TextWatcher()
-  //   {
-  //     @Override
-  //     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-  //     @Override
-  //     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-  //     {
-  //       clearNameBtn.setEndIconVisible(charSequence.length() > 0);
-  //     }
-
-  //     @Override
-  //     public void afterTextChanged(Editable editable) {}
-  //   });
-  //   mEditDescView = root.findViewById(R.id.edit_description);
-  //   mEditDescView.setText(mCategory.getDescription());
-  //   ImageView mColorIcon = root.findViewById(R.id.iv__category_color);
-
-  // }
-
-  // private void openColorPicker()
-  // {
-  //   BookmarkColorDialogFragment dialogFragment = new BookmarkColorDialogFragment();
-  //   dialogFragment.setOnColorSetListener(colorPos -> {
-  //       Icon newIcon = BookmarkManager.ICONS.get(colorPos);
-  //       mCategory.setIcon(newIcon);
-  //       BookmarkManager.INSTANCE.setCategoryColor(mCategory.getId(), newIcon);
-  //       refreshColorIcon(newIcon.getColor());
-  //   });
-  //   dialogFragment.show(requireActivity().getSupportFragmentManager(), null);
-  // }
-
   private void initViews(@NonNull View root)
   {
       mEditCategoryNameView = root.findViewById(R.id.edit_list_name_view);
