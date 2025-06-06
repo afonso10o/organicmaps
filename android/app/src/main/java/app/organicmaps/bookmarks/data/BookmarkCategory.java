@@ -25,6 +25,7 @@ public class BookmarkCategory implements Parcelable
   private final int mTracksCount;
   private final int mBookmarksCount;
   private boolean mIsVisible;
+  private Icon mIcon;
 
   public BookmarkCategory(long id, @NonNull String name, @NonNull String annotation,
                           @NonNull String description, int tracksCount, int bookmarksCount,
@@ -37,6 +38,7 @@ public class BookmarkCategory implements Parcelable
     mTracksCount = tracksCount;
     mBookmarksCount = bookmarksCount;
     mIsVisible = isVisible;
+    mIcon = getIconInternal();
   }
 
   @Override
@@ -85,6 +87,24 @@ public class BookmarkCategory implements Parcelable
     mIsVisible = isVisible;
   }
 
+  private Icon getIconInternal()
+  {
+    return new Icon(BookmarkManager.INSTANCE.getCategoryColor(mBookmarkId),
+                    BookmarkManager.INSTANCE.getCategoryIcon(mBookmarkId));
+  }
+
+  @Nullable
+  public Icon getIcon()
+  {
+    return mIcon;
+  }
+
+  public void setIcon(@NonNull Icon icon)
+  {
+    BookmarkManager.INSTANCE.notifyCategoryColorUpdating(this, icon);
+    mIcon = icon;
+  }
+
   public int size()
   {
     return getBookmarksCount() + getTracksCount();
@@ -102,6 +122,11 @@ public class BookmarkCategory implements Parcelable
     return mDescription;
   }
 
+  public int getColor()
+  {
+    return mIcon.getColor();
+  }
+
   @Override
   public String toString()
   {
@@ -113,6 +138,7 @@ public class BookmarkCategory implements Parcelable
     sb.append(", mTracksCount=").append(mTracksCount);
     sb.append(", mBookmarksCount=").append(mBookmarksCount);
     sb.append(", mIsVisible=").append(mIsVisible);
+    sb.append(", mIcon=").append(mIcon);
 
     sb.append('}');
     return sb.toString();
@@ -134,6 +160,7 @@ public class BookmarkCategory implements Parcelable
     dest.writeInt(this.mTracksCount);
     dest.writeInt(this.mBookmarksCount);
     dest.writeByte(this.mIsVisible ? (byte) 1 : (byte) 0);
+    dest.writeParcelable(this.mIcon, flags);
   }
 
   protected BookmarkCategory(Parcel in)
@@ -145,6 +172,7 @@ public class BookmarkCategory implements Parcelable
     this.mTracksCount = in.readInt();
     this.mBookmarksCount = in.readInt();
     this.mIsVisible = in.readByte() != 0;
+    this.mIcon = ParcelCompat.readParcelable(in, Icon.class.getClassLoader(), Icon.class);
   }
 
   public static final Creator<BookmarkCategory> CREATOR = new Creator<>()
