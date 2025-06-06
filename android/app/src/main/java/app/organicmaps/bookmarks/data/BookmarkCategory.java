@@ -92,6 +92,7 @@ public class BookmarkCategory implements Parcelable
     return new Icon(BookmarkManager.INSTANCE.getCategoryColor(mBookmarkId));
   }
 
+
   @Nullable
   public Icon getIcon()
   {
