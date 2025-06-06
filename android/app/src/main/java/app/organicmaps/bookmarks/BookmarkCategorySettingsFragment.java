@@ -65,31 +65,110 @@ public class BookmarkCategorySettingsFragment extends BaseMwmToolbarFragment
     return root;
   }
 
+  // private void initViews(@NonNull View root)
+  // {
+  //   mEditCategoryNameView = root.findViewById(R.id.edit_list_name_view);
+  //   TextInputLayout clearNameBtn = root.findViewById(R.id.edit_list_name_input);
+  //   clearNameBtn.setEndIconOnClickListener(v -> clearAndFocus(mEditCategoryNameView));
+  //   mEditCategoryNameView.setText(mCategory.getName());
+  //   InputFilter[] f = { new InputFilter.LengthFilter(TEXT_LENGTH_LIMIT) };
+  //   mEditCategoryNameView.setFilters(f);
+  //   mEditCategoryNameView.requestFocus();
+  //   mEditCategoryNameView.addTextChangedListener(new TextWatcher()
+  //   {
+  //     @Override
+  //     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+  //     @Override
+  //     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+  //     {
+  //       clearNameBtn.setEndIconVisible(charSequence.length() > 0);
+  //     }
+
+  //     @Override
+  //     public void afterTextChanged(Editable editable) {}
+  //   });
+  //   mEditDescView = root.findViewById(R.id.edit_description);
+  //   mEditDescView.setText(mCategory.getDescription());
+  //   ImageView mColorIcon = root.findViewById(R.id.iv__category_color);
+
+  // }
+
+  // private void openColorPicker()
+  // {
+  //   BookmarkColorDialogFragment dialogFragment = new BookmarkColorDialogFragment();
+  //   dialogFragment.setOnColorSetListener(colorPos -> {
+  //       Icon newIcon = BookmarkManager.ICONS.get(colorPos);
+  //       mCategory.setIcon(newIcon);
+  //       BookmarkManager.INSTANCE.setCategoryColor(mCategory.getId(), newIcon);
+  //       refreshColorIcon(newIcon.getColor());
+  //   });
+  //   dialogFragment.show(requireActivity().getSupportFragmentManager(), null);
+  // }
+
   private void initViews(@NonNull View root)
   {
-    mEditCategoryNameView = root.findViewById(R.id.edit_list_name_view);
-    TextInputLayout clearNameBtn = root.findViewById(R.id.edit_list_name_input);
-    clearNameBtn.setEndIconOnClickListener(v -> clearAndFocus(mEditCategoryNameView));
-    mEditCategoryNameView.setText(mCategory.getName());
-    InputFilter[] f = { new InputFilter.LengthFilter(TEXT_LENGTH_LIMIT) };
-    mEditCategoryNameView.setFilters(f);
-    mEditCategoryNameView.requestFocus();
-    mEditCategoryNameView.addTextChangedListener(new TextWatcher()
-    {
-      @Override
-      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-      @Override
-      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+      mEditCategoryNameView = root.findViewById(R.id.edit_list_name_view);
+      TextInputLayout clearNameBtn = root.findViewById(R.id.edit_list_name_input);
+      clearNameBtn.setEndIconOnClickListener(v -> clearAndFocus(mEditCategoryNameView));
+      mEditCategoryNameView.setText(mCategory.getName());
+      InputFilter[] f = { new InputFilter.LengthFilter(TEXT_LENGTH_LIMIT) };
+      mEditCategoryNameView.setFilters(f);
+      mEditCategoryNameView.requestFocus();
+      mEditCategoryNameView.addTextChangedListener(new TextWatcher()
       {
-        clearNameBtn.setEndIconVisible(charSequence.length() > 0);
-      }
+          @Override
+          public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
-      @Override
-      public void afterTextChanged(Editable editable) {}
-    });
-    mEditDescView = root.findViewById(R.id.edit_description);
-    mEditDescView.setText(mCategory.getDescription());
+          @Override
+          public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+          {
+              clearNameBtn.setEndIconVisible(charSequence.length() > 0);
+          }
+
+          @Override
+          public void afterTextChanged(Editable editable) {}
+      });
+      mEditDescView = root.findViewById(R.id.edit_description);
+      mEditDescView.setText(mCategory.getDescription());
+      mIvColor = root.findViewById(R.id.iv__category_color);
+      mIvColor.setOnClickListener(v -> selectCategoryColor());
+      refreshColorMarker();
+  }
+
+  private void selectCategoryColor()
+  {
+      final Bundle args = new Bundle();
+      args.putInt(BookmarkColorDialogFragment.ICON_TYPE, mCategory.getIcon().getColor());
+      final FragmentManager manager = getChildFragmentManager();
+      String className = BookmarkColorDialogFragment.class.getName();
+      final FragmentFactory factory = manager.getFragmentFactory();
+      final BookmarkColorDialogFragment dialogFragment =
+          (BookmarkColorDialogFragment) factory.instantiate(requireContext().getClassLoader(), className);
+      dialogFragment.setArguments(args);
+      dialogFragment.setOnColorSetListener(colorPos -> {
+          final Icon newIcon = BookmarkManager.ICONS.get(colorPos);
+          if (mCategory.getIcon().getColor() == newIcon.getColor())
+              return;
+
+          mCategory.setIcon(newIcon);
+          BookmarkManager.INSTANCE.setCategoryColor(mCategory.getId(), newIcon);
+          refreshColorMarker();
+      });
+      dialogFragment.show(requireActivity().getSupportFragmentManager(), null);
+  }
+
+  private void refreshColorMarker()
+  {
+      if (mCategory.getIcon() != null)
+      {
+          Drawable circle = Graphics.drawCircleAndImage(mCategory.getIcon().argb(),
+                                                        R.dimen.track_circle_size,
+                                                        R.drawable.ic_bookmark_none,
+                                                        R.dimen.bookmark_icon_size,
+                                                        requireContext());
+          mIvColor.setImageDrawable(circle);
+      }
   }
 
   @Override

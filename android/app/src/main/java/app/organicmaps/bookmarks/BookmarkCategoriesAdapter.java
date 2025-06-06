@@ -140,7 +140,7 @@ public class BookmarkCategoriesAdapter extends BaseBookmarkCategoryAdapter<Recyc
         categoryHolder.setVisibilityListener(visibilityListener);
         CategoryItemMoreClickListener moreClickListener = new CategoryItemMoreClickListener(categoryHolder);
         categoryHolder.setMoreButtonClickListener(moreClickListener);
-        categoryHolder.setColorIcon(category.getColor());
+        categoryHolder.setColorIcon(category.getColor().getColor());
       }
       case TYPE_ACTION_ADD ->
       {

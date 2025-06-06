@@ -89,8 +89,7 @@ public class BookmarkCategory implements Parcelable
 
   private Icon getIconInternal()
   {
-    return new Icon(BookmarkManager.INSTANCE.getCategoryColor(mBookmarkId),
-                    BookmarkManager.INSTANCE.getCategoryIcon(mBookmarkId));
+    return new Icon(BookmarkManager.INSTANCE.getCategoryColor(mBookmarkId));
   }
 
   @Nullable
