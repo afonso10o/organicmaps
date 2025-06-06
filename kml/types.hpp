@@ -464,6 +464,7 @@ struct CategoryData
                                   visitor(m_toponyms, "toponyms"),
                                   visitor(m_languageCodes, "languageCodes"),
                                   visitor(m_properties, "properties"),
+                                  visitor(m_defaultColor, "defaultColor"),
                                   VISITOR_COLLECTABLE)
 
   DECLARE_COLLECTABLE(LocalizableStringIndex, m_name, m_annotation, m_description,
@@ -480,7 +481,8 @@ struct CategoryData
            fabs(m_rating - data.m_rating) < kEps && m_reviewsNumber == data.m_reviewsNumber &&
            IsEqual(m_lastModified, data.m_lastModified) && m_tags == data.m_tags &&
            m_toponyms == data.m_toponyms && m_languageCodes == data.m_languageCodes &&
-           m_properties == data.m_properties;
+           m_properties == data.m_properties &&
+           m_defaultColor == data.m_defaultColor;
   }
 
   bool operator!=(CategoryData const & data) const { return !operator==(data); }
@@ -523,6 +525,8 @@ struct CategoryData
   std::vector<int8_t> m_languageCodes;
   // Key-value properties.
   Properties m_properties;
+  // Default color for the category.
+  ColorData m_defaultColor = {};
 };
 
 struct FileData

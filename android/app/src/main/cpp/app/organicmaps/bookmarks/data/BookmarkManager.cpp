@@ -107,6 +107,7 @@ void PrepareClassRefs(JNIEnv * env)
                             "I"                   // tracksCount
                             "I"                   // bookmarksCount
                             "Z"                   // isVisible
+                            "I"                   // color  
                             ")V");
   g_onElevationCurrentPositionChangedMethod =
       jni::GetMethodID(env, bookmarkManagerInstance, "onElevationCurrentPositionChanged", "()V");
@@ -285,12 +286,13 @@ jobject MakeCategory(JNIEnv * env, kml::MarkGroupId id)
                         descriptionRef.get(),
                         static_cast<jint>(tracksCount),
                         static_cast<jint>(bookmarksCount),
-                        static_cast<jboolean>(isVisible));
+                        static_cast<jboolean>(isVisible),
+                        static_cast<jint>(data.m_defaultColor));
 }
 
 jobjectArray MakeCategories(JNIEnv * env, kml::GroupIdCollection const & ids)
 {
-  return ToJavaArray(env, g_bookmarkCategoryClass, ids, std::bind(&MakeCategory, _1, _2));
+  returnzxx ToJavaArray(env, g_bookmarkCategoryClass, ids, std::bind(&MakeCategory, _1, _2));
 }
 }  // namespace
 
@@ -478,6 +480,22 @@ Java_app_organicmaps_bookmarks_data_BookmarkManager_nativeSetCategoryCustomPrope
 {
   frm()->GetBookmarkManager().GetEditSession().SetCategoryCustomProperty(
     static_cast<kml::MarkGroupId>(catId), ToNativeString(env, key), ToNativeString(env, value));
+}
+
+JNIEXPORT void JNICALL
+Java_app_organicmaps_bookmarks_data_BookmarkManager_nativeSetCategoryColor(
+    JNIEnv *, jlong catId, jint color)
+{
+  frm()->GetBookmarkManager().GetEditSession().SetCategoryColor(
+    static_cast<kml::MarkGroupId>(catId),
+    static_cast<kml::PredefinedColor>(color));
+}
+
+JNIEXPORT jint JNICALL
+Java_app_organicmaps_bookmarks_data_BookmarkManager_nativeGetCategoryColor(
+    JNIEnv *, jclass, jlong catId)
+{
+  return static_cast<jint>(frm()->GetBookmarkManager().GetCategoryColor(static_cast<kml::MarkGroupId>(catId)));
 }
 
 JNIEXPORT jobject JNICALL
