@@ -89,6 +89,7 @@ public:
   BookmarkCategory(kml::CategoryData && data, bool autoSave);
 
   static kml::PredefinedColor GetDefaultColor();
+  kml::PredefinedColor GetColor() const;
 
   kml::MarkGroupId GetID() const { return m_data.m_id; }
   kml::MarkGroupId GetParentID() const { return m_parentId; }
@@ -98,6 +99,7 @@ public:
   void SetName(std::string const & name);
   void SetDescription(std::string const & desc);
   void SetFileName(std::string const & fileName) { m_file = fileName; }
+  void SetColor(kml::PredefinedColor color);
   std::string GetName() const;
   std::string const & GetFileName() const { return m_file; }
 

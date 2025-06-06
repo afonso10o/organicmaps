@@ -285,6 +285,11 @@ public enum BookmarkManager
     nativeSetCategoryDescription(id, categoryDesc);
   }
 
+  public void setCategoryColor(long catid, @NonNull Icon icon)
+  {
+    nativeSetCategoryColor(catid, icon.getColor(););
+  }
+
   @Nullable
   public Bookmark updateBookmarkPlacePage(long bmkId)
   {
@@ -606,6 +611,11 @@ public enum BookmarkManager
     return nativeGetBookmarkIcon(bookmarkId);
   }
 
+  public int getCategoryColor(@IntRange(from = 0) long categoryId)
+  {
+    return nativeGetCategoryColor(categoryId);
+  }
+
   @NonNull
   public String getBookmarkDescription(@IntRange(from = 0) long bookmarkId)
   {
@@ -728,6 +738,12 @@ public enum BookmarkManager
     }
   }
 
+ public void notifyCategoryColorUpdating(@NonNull BookmarkCategory category, @NonNull Icon icon)
+  {
+    if (!icon.getColor() == category.getColor())
+      setCategoryColor(category.getId(), icon);
+  }
+
   public double getElevationCurPositionDistance(long trackId)
   {
    return nativeGetElevationCurPositionDistance(trackId);
@@ -764,11 +780,15 @@ public enum BookmarkManager
 
   private native void nativeSetCategoryDescription(long catId, @NonNull String desc);
 
+  private native void nativeSetCategoryColor(long catId, @NonNull int color);
+
   private native void nativeSetCategoryTags(long catId, @NonNull String[] tagsIds);
 
   private native void nativeSetCategoryAccessRules(long catId, int accessRules);
 
   private native void nativeSetCategoryCustomProperty(long catId, String key, String value);
+
+  private static native int nativeGetCategoryColor(@IntRange(from = 0) long categoryId);
 
   private static native void nativeLoadBookmarks();
 

@@ -324,10 +324,19 @@ public:
   }
 
   template <typename R>
-  std::enable_if_t<!std::is_integral<R>::value>
+  std::enable_if_t<!std::is_integral<R>::value && !std::is_enum<R>::value>
   operator()(R const & r, char const * /* name */ = nullptr)
   {
     r.Visit(*this);
+  }
+
+  // Add this overload for enums:
+  template <typename E>
+  std::enable_if_t<std::is_enum<E>::value>
+  operator()(E const & e, char const * /* name */ = nullptr)
+  {
+    using Underlying = std::underlying_type_t<E>;
+    (*this)(static_cast<Underlying>(e));
   }
 
   // Skip visiting. It is stored in the separate sections.
@@ -451,7 +460,7 @@ public:
   }
 
   template <typename R>
-  std::enable_if_t<!std::is_integral<R>::value>
+  std::enable_if_t<!std::is_integral<R>::value && !std::is_enum<R>::value>
   operator()(R const & r, char const * /* name */ = nullptr)
   {
     r.Visit(*this);
@@ -537,6 +546,15 @@ public:
     }
   }
 
+  template <typename E>
+  std::enable_if_t<std::is_enum<E>::value>
+  operator()(E & e, char const * /* name */ = nullptr)
+  {
+    using Underlying = std::underlying_type_t<E>;
+    Underlying value = ReadPrimitiveFromSource<Underlying>(m_source);
+    e = static_cast<E>(value);
+  }
+
   template <typename D>
   std::enable_if_t<std::is_integral<D>::value>
   operator()(D & d, char const * /* name */ = nullptr)
@@ -545,7 +563,7 @@ public:
   }
 
   template <typename R>
-  std::enable_if_t<!std::is_integral<R>::value>
+  std::enable_if_t<!std::is_integral<R>::value && !std::is_enum<R>::value>
   operator()(R & r, char const * /* name */ = nullptr)
   {
     r.Visit(*this);
@@ -684,7 +702,7 @@ public:
   }
 
   template <typename R>
-  std::enable_if_t<!std::is_integral<R>::value>
+  std::enable_if_t<!std::is_integral<R>::value && !std::is_enum<R>::value>
   operator()(R & r, char const * /* name */ = nullptr)
   {
     r.Visit(*this);

@@ -1707,6 +1707,18 @@ void BookmarkManager::SetCategoryCustomProperty(kml::MarkGroupId categoryId, std
   GetBmCategory(categoryId)->SetCustomProperty(key, value);
 }
 
+void BookmarkManager::SetCategoryColor(kml::MarkGroupId categoryId, kml::PredefinedColor color)
+{
+  CHECK_THREAD_CHECKER(m_threadChecker, ());
+  GetBmCategory(categoryId)->SetColor(color);
+}
+
+kml::PredefinedColor BookmarkManager::GetCategoryColor(kml::MarkGroupId categoryId) const
+{
+  CHECK_THREAD_CHECKER(m_threadChecker, ());
+  return GetBmCategory(categoryId)->GetColor();
+}
+
 std::string BookmarkManager::GetCategoryFileName(kml::MarkGroupId categoryId) const
 {
   CHECK_THREAD_CHECKER(m_threadChecker, ());

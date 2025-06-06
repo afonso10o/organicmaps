@@ -60,6 +60,15 @@
       android:layout_height="wrap_content"
       android:inputType="textMultiLine"/>
     </com.google.android.material.textfield.TextInputLayout>
+    <ImageView
+      android:id="@+id/iv__category_color"
+      android:layout_width="@dimen/track_circle_size"
+      android:layout_height="@dimen/track_circle_size"
+      android:layout_marginTop="@dimen/margin_base"
+      android:layout_gravity="center"
+      android:background="?clickableBackground"
+      android:contentDescription="@string/color_icon"
+      tools:src="@drawable/ic_bookmark_none" />
     <View
       android:background="?android:attr/windowBackground"
       android:layout_width="match_parent"

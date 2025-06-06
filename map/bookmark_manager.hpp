@@ -144,7 +144,6 @@ public:
 
     void MoveBookmark(kml::MarkId bmID, kml::MarkGroupId curGroupID, kml::MarkGroupId newGroupID);
     void UpdateBookmark(kml::MarkId bmId, kml::BookmarkData const & bm);
-
     void AttachBookmark(kml::MarkId bmId, kml::MarkGroupId groupId);
     void DetachBookmark(kml::MarkId bmId, kml::MarkGroupId groupId);
 
@@ -292,6 +291,10 @@ public:
 
   void SetLastEditedBmCategory(kml::MarkGroupId groupId);
   void SetLastEditedBmColor(kml::PredefinedColor color);
+
+  void SetCategoryColor(kml::MarkGroupId categoryId, kml::PredefinedColor color);
+
+  kml::PredefinedColor GetCategoryColor(kml::MarkGroupId categoryId) const;
 
   using TTouchRectHolder = std::function<m2::AnyRectD(UserMark::Type)>;
   using TFindOnlyVisibleChecker = std::function<bool(UserMark::Type)>;

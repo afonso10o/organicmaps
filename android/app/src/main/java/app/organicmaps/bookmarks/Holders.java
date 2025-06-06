@@ -273,6 +273,8 @@ public class Holders
     CheckBox mVisibilityMarker;
     @NonNull
     ImageView mMoreButton;
+    @NonNull
+    private final ImageView mColorIcon;
 
     CategoryViewHolder(@NonNull View root)
     {
@@ -280,6 +282,7 @@ public class Holders
       mName = root.findViewById(R.id.name);
       mVisibilityMarker = root.findViewById(R.id.checkbox);
       mMoreButton = root.findViewById(R.id.more);
+      mColorIcon = root.findViewById(R.id.color_icon);
     }
 
     void setVisibilityState(boolean visible)
@@ -300,6 +303,12 @@ public class Holders
     void setName(@NonNull String name)
     {
       mName.setText(name);
+    }
+    
+    void setColorIcon(int color)
+    {
+      Drawable circle = Graphics.drawCircle(color, R.dimen.category_circle_size, itemView.getResources());
+      mColorIcon.setImageDrawable(circle);
     }
   }
 

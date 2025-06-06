@@ -4,6 +4,7 @@ import static app.organicmaps.bookmarks.Holders.CategoryViewHolder;
 import static app.organicmaps.bookmarks.Holders.HeaderViewHolder;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import app.organicmaps.R;
 import app.organicmaps.adapter.OnItemClickListener;
 import app.organicmaps.bookmarks.data.BookmarkCategory;
 import app.organicmaps.bookmarks.data.BookmarkManager;
+import app.organicmaps.util.Graphics;
 
 import java.util.List;
 
@@ -138,6 +140,7 @@ public class BookmarkCategoriesAdapter extends BaseBookmarkCategoryAdapter<Recyc
         categoryHolder.setVisibilityListener(visibilityListener);
         CategoryItemMoreClickListener moreClickListener = new CategoryItemMoreClickListener(categoryHolder);
         categoryHolder.setMoreButtonClickListener(moreClickListener);
+        categoryHolder.setColorIcon(category.getColor().getColor());
       }
       case TYPE_ACTION_ADD ->
       {
