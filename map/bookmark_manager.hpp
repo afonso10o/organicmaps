@@ -292,9 +292,9 @@ public:
   void SetLastEditedBmCategory(kml::MarkGroupId groupId);
   void SetLastEditedBmColor(kml::PredefinedColor color);
 
-  void SetCategoryColor(kml::MarkGroupId categoryId, kml::PredefinedColor color)
+  void SetCategoryColor(kml::MarkGroupId categoryId, kml::PredefinedColor color);
 
-  kml::PredefinedColor GetCategoryColor(kml::MarkGroupId categoryId) const
+  kml::PredefinedColor GetCategoryColor(kml::MarkGroupId categoryId) const;
 
   using TTouchRectHolder = std::function<m2::AnyRectD(UserMark::Type)>;
   using TFindOnlyVisibleChecker = std::function<bool(UserMark::Type)>;

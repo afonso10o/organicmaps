@@ -369,12 +369,17 @@ void BookmarkCategory::SetCustomProperty(std::string const & key, std::string co
   m_data.m_properties[key] = value;
 }
 
-void BookmarkCategory::SetColor(kml::CategoryData & data, kml::PredefinedColor color)
+void BookmarkCategory::SetColor(kml::PredefinedColor color)
 {
-  if (data.m_defaultColor.m_predefinedColor == color)
+  if (m_data.m_defaultColor.m_predefinedColor == color)
     return;
 
-  data.m_defaultColor.m_predefinedColor = color;
+  m_data.m_defaultColor.m_predefinedColor = color;
+}
+
+kml::PredefinedColor BookmarkCategory::GetColor() const
+{
+  return m_data.m_defaultColor.m_predefinedColor;
 }
 
 std::string BookmarkCategory::GetName() const
